@@ -1,0 +1,31 @@
+.btn-add-user {
+    letter-spacing: 0.9px;
+    user-select: none;
+    font-family: "Comfortaa", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    padding: 8px;
+
+    border-radius: 3px;
+    background-color: #FBC520;
+    border: none;
+    color: #3C2C0B;
+
+    cursor: pointer;
+}
+
+.btn-add-user:hover {
+    background-color: #FAB619;
+}
+
+.add-close {
+    display: none;
+}
+
+.addOpen {
+    display: block;
+    position: relative;
+    z-index: 9999;
+}
+

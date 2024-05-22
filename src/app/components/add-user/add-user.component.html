@@ -1,0 +1,9 @@
+<button class="btn-add-user" (click)="modalOpen()">Добавить личность</button>
+
+<div class="add-close" [class.addOpen]="addOpen">
+    <h2>Добавить нового пользователя:</h2>
+    <input type="text" [(ngModel)]="newUser.first_name" placeholder="Фамилия">
+    <input type="text" [(ngModel)]="newUser.second_name" placeholder="Имя">
+    <input type="text" [(ngModel)]="newUser.last_name" placeholder="Отчество">
+    <button (click)="addNew()">Добавить</button>
+  </div>

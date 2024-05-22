@@ -1,0 +1,37 @@
+<div class="container">
+    <header>
+        <div class="title">
+            <h1>Информация о неизвестных личностях</h1>
+        </div>
+        <app-add-user></app-add-user>
+    </header>
+    <main>
+        <input class="search" type="text" [(ngModel)]="searchQuery" placeholder="Поиск по фамилии">
+        <table>
+          <thead>
+            <tr>
+              <th>Фамилия</th>
+              <th>Имя</th>
+              <th>Отчество</th>
+              <th>Пол</th>
+              <th>Телефон</th>
+              <th>Адрес</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of jsonData | filterByFirstName:searchQuery">
+              <td>{{ item.first_name }}</td>
+              <td>{{ item.second_name }}</td>
+              <td>{{ item.last_name }}</td>
+              <td>{{ item.gender }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.adress }}</td>
+              <td>
+                <button class="btn-del" (click)="removeItem(item.first_name)">Удалить</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </main>
+    
+</div>
