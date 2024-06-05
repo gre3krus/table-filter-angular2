@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 
 export class JsonService {
   constructor(private http: HttpClient) {}
+  
   getJsonData(): Observable<DataType[]> {
     return this.http.get<DataType[]>('assets/API.json');
   }
@@ -22,7 +23,7 @@ export type DataType = {
   educateion: educateion[],
   gender: string,
   adress: string,
-  phone: string,
+  phone: number,
   salary: number,
   employment_date: string,
   dismissal_date: string,

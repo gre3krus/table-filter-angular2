@@ -3,35 +3,137 @@
         <div class="title">
             <h1>Информация о неизвестных личностях</h1>
         </div>
-        <app-add-user></app-add-user>
+        <button class="btn-add-user" (click)="modalOpen()">Добавить личность</button>
     </header>
+
     <main>
+
+      <div class="add-close" [class.addOpen]="addOpen">
+        <div class="header-closed">
+          <span>Добавить нового пользователя:</span>
+          <img src="assets/close.svg" alt="error close" class="closed-btn" (click)="modalOpen()">
+        </div>
+        <div class="add-content">
+          <div class="content">
+            <input type="text" [(ngModel)]="newUser.first_name" placeholder="Фамилия" onkeyup="let fName=/['0-9']/; if(fName.test(this.value)) this.value=''">
+            <input type="text" [(ngModel)]="newUser.second_name" placeholder="Имя" onkeyup="let sName=/['0-9']/; if(sName.test(this.value)) this.value=''">
+            <input type="text" [(ngModel)]="newUser.last_name" placeholder="Отчество" onkeyup="let lName=/['0-9']/; if(lName.test(this.value)) this.value=''">
+            <section>
+              Пол
+              <select [(ngModel)]="newUser.gender" name="Не указан">
+                <option>Мужской</option>
+                <option>Женский</option>
+                <option selected>Не указан</option>
+              </select>
+            </section>
+            <section>
+              Телефон
+              <input type="text" [(ngModel)]="newUser.phone" placeholder="xxx-xxx-xxxx" maxlength="10" (keyup)="phone()">
+            </section>
+          </div>
+          <div class="ed-window" [class.edOpen]="edOpen">
+            <input type="text" [(ngModel)]="newUser.educateion_high" placeholder="Высшее">
+            <input type="text" [(ngModel)]="newUser.educateion_middle" placeholder="Среднее">
+            <input type="text" [(ngModel)]="newUser.educateion_school" placeholder="Школа">
+            <!-- <div class="ed-high">
+              <ng-template [ngIf]="newUser.educateion_high === true" [ngIfElse]="ggg">
+                <input type="checkbox" name="high">
+                <input type="checkbox" name="middle" [(ngModel)]="newUser.educateion_middle">
+              </ng-template>
+              <ng-template #ggg>
+                <label for="high" [(ngModel)]="newUser.educateion_high">Высшее</label>
+              </ng-template>
+            </div>
+            <div class="ed-middle">
+              <input type="checkbox" name="middle" [(ngModel)]="newUser.educateion_middle">
+              <label for="middle">Среднее</label>
+            </div>
+            <div class="ed-school">
+              <input type="checkbox" name="school" [(ngModel)]="newUser.educateion_school">
+              <label for="school">Школа</label>
+            </div> -->
+          </div>
+          <div class="content2">
+            <input type="text" [(ngModel)]="newUser.birthday" placeholder="Год рождения">
+            <input type="text" [(ngModel)]="newUser.salary" placeholder="Зарплата">
+            <input type="text" [(ngModel)]="newUser.employment_date" placeholder="Трудоустройство">
+            <input type="text" [(ngModel)]="newUser.dismissal_date" placeholder="Увольнение">
+            <button class="add-ed" (click)="addEd()">Образование</button>
+          </div>
+        </div>
+        <input class="adress" type="text" [(ngModel)]="newUser.adress" placeholder="Адрес" maxlength="80" oninput="this.size=Math.max(this.value.length, 20)">
+        <button class="add-user" (click)="addNew()">Добавить</button>
+      </div>
+
         <input class="search" type="text" [(ngModel)]="searchQuery" placeholder="Поиск по фамилии">
-        <table>
+        <table class="main-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Фамилия</th>
               <th>Имя</th>
               <th>Отчество</th>
+              <th>Год рождения</th>
               <th>Пол</th>
-              <th>Телефон</th>
-              <th>Адрес</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of jsonData | filterByFirstName:searchQuery">
-              <td>{{ item.first_name }}</td>
-              <td>{{ item.second_name }}</td>
-              <td>{{ item.last_name }}</td>
-              <td>{{ item.gender }}</td>
-              <td>{{ item.phone }}</td>
-              <td>{{ item.adress }}</td>
-              <td>
-                <button class="btn-del" (click)="removeItem(item.first_name)">Удалить</button>
-              </td>
+            <tr *ngFor="let item of jsonData | filterByFirstName:searchQuery" (click)="getInfo(item)" [class.selected]="item === selectedUser"> 
+              <td (click)="openInfo()">{{ item.id }}</td>
+              <td (click)="openInfo()">{{ item.first_name }}</td>
+              <td (click)="openInfo()">{{ item.second_name }}</td>
+              <td (click)="openInfo()">{{ item.last_name }}</td>
+              <td (click)="openInfo()">{{ item.birthday }}</td>
+              <td (click)="openInfo()">{{ item.gender }}</td>
+              <span>
+                <img src="assets/trash.svg" alt="error delete" class="btn-del" (click)="removeItem(item.id)">
+              </span>
             </tr>
           </tbody>
         </table>
+
+        <div class="info-close" [class.infoOpen]="infoOpen" *ngIf="selectedUser">
+          <div class="header-info">
+            <span>Подробная информация</span>
+            <img src="assets/close.svg" alt="error close" class="closed-info" (click)="openInfo()">
+          </div>
+          <div class="info">
+            <table class="info-table">
+              <thead>
+                <th>ID</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Год рождения</th>
+                <th>Пол</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+                <th>Трудоустройство</th>
+                <th>Увольнение</th>
+                <th>Зарплата</th>
+                <th>Образование</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ selectedUser.id }}</td>
+                  <td>{{ selectedUser.first_name }}</td>
+                  <td>{{ selectedUser.second_name }}</td>
+                  <td>{{ selectedUser.last_name }}</td>
+                  <td>{{ selectedUser.birthday }}</td>
+                  <td>{{ selectedUser.gender }}</td>
+                  <td class="phone">{{ selectedUser.phone }}</td>
+                  <td>{{ selectedUser.adress}}</td>
+                  <td>{{selectedUser.employment_date}}</td>
+                  <td>{{selectedUser.dismissal_date}}</td>
+                  <td>{{selectedUser.salary}}</td>
+                  <ng-container *ngFor="let ed of selectedUser.educateion">
+                    <td class="td-ed" >{{ ed.educateion_name }}</td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
     </main>
-    
 </div>

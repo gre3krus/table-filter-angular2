@@ -7,14 +7,12 @@ import { AppComponent } from './app.component';
 import { UserComponent } from './components/user/user.component';
 import { FormsModule } from '@angular/forms';
 import { FilterByFirstNamePipe } from './filter.pipe';
-import { AddUserComponent } from './components/add-user/add-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
     FilterByFirstNamePipe,
-    AddUserComponent
   ],
   imports: [
     BrowserModule,
